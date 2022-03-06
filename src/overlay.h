@@ -60,7 +60,6 @@ struct swapchain_stats {
 
    ImFont* font1 = nullptr;
    ImFont* font_text = nullptr;
-   size_t font_params_hash = 0;
    std::string time;
    double fps;
    uint64_t last_present_time;
@@ -120,6 +119,15 @@ struct instance_data {
    int control_client;
 };
 
+struct vk_image {
+   bool uploaded;
+   VkImage image;
+   VkImageView image_view;
+   VkDeviceMemory mem;
+   VkBuffer buffer;
+   VkDeviceMemory buffer_mem;
+};
+
 /* Mapped from VkDevice */
 struct queue_data;
 struct device_data {
@@ -136,6 +144,18 @@ struct device_data {
    struct queue_data *graphic_queue;
 
    std::vector<struct queue_data *> queues;
+
+   VkDescriptorPool descriptor_pool;
+   VkDescriptorSetLayout descriptor_layout;
+   VkDescriptorSet descriptor_set;
+
+   VkSampler sampler;
+
+   std::mutex font_mutex;
+   ImFontAtlas* font_atlas;
+   ImFont *font_alt, *font_text;
+   struct vk_image font_img;
+   size_t font_params_hash = 0;
 };
 
 #ifndef MANGOAPP_LAYER
@@ -163,7 +183,8 @@ void check_keybinds(overlay_params& params, uint32_t vendorID);
 void init_system_info(void);
 void FpsLimiter(struct fps_limit& stats);
 std::string get_device_name(int32_t vendorID, int32_t deviceID);
-void create_fonts(const overlay_params& params, ImFont*& small_font, ImFont*& text_font);
+void calculate_benchmark_data(overlay_params* params);
+void create_fonts(ImFontAtlas* font_atlas, const overlay_params& params, ImFont*& small_font, ImFont*& text_font);
 void right_aligned_text(ImVec4& col, float off_x, const char *fmt, ...);
 void center_text(const std::string& text);
 ImVec4 change_on_load_temp(LOAD_DATA& data, unsigned current);
