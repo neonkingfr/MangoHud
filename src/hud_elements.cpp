@@ -580,12 +580,12 @@ void HudElements::frame_timing(){
             ImGui::PlotHistogram(hash, get_time_stat, HUDElements.sw_stats,
                                 ARRAY_SIZE(HUDElements.sw_stats->frames_stats), 0,
                                 NULL, min_time, max_time,
-                                ImVec2(ImGui::GetContentRegionAvailWidth() * HUDElements.params->table_columns, 50));
+                                ImVec2(ImGui::GetContentRegionAvail().x * HUDElements.params->table_columns, 50));
         } else {
 #ifdef MANGOAPP
-        int width = ImGui::GetContentRegionAvailWidth() * HUDElements.params->table_columns - 30;
+        int width = ImGui::GetContentRegionAvail().x * HUDElements.params->table_columns - 30;
 #else
-        int width = ImGui::GetContentRegionAvailWidth() * HUDElements.params->table_columns;
+        int width = ImGui::GetContentRegionAvail().x * HUDElements.params->table_columns;
 #endif
             ImGui::PlotLines(hash, get_time_stat, HUDElements.sw_stats,
                             ARRAY_SIZE(HUDElements.sw_stats->frames_stats), 0,
@@ -815,7 +815,7 @@ void HudElements::gamescope_frame_timing(){
         ImGui::PlotLines("", gamescope_debug_app.data(),
                 gamescope_debug_app.size(), 0,
                 NULL, min_time, max_time,
-                    ImVec2(ImGui::GetContentRegionAvailWidth() * HUDElements.params->table_columns - 30, 50));
+                    ImVec2(ImGui::GetContentRegionAvail().x * HUDElements.params->table_columns - 30, 50));
             ImGui::SameLine();
             ImGui::PushFont(HUDElements.sw_stats->font1);
             ImGui::Text("%.1fms", gamescope_debug_app.back());
@@ -840,7 +840,7 @@ void HudElements::gamescope_frame_timing(){
             ImGui::PlotLines("", gamescope_debug_latency.data(),
                     gamescope_debug_latency.size(), 0,
                     NULL, min_time, max_time,
-                    ImVec2(ImGui::GetContentRegionAvailWidth() * HUDElements.params->table_columns - 30, 50));
+                    ImVec2(ImGui::GetContentRegionAvail().x * HUDElements.params->table_columns - 30, 50));
             ImGui::SameLine();
             ImGui::PushFont(HUDElements.sw_stats->font1);
             ImGui::Text("%.1fms", gamescope_debug_latency.back());
@@ -1054,12 +1054,12 @@ void HudElements::graphs(){
         ImGui::PlotLines("", arr.data(),
                 arr.size(), 0,
                 NULL, HUDElements.min, HUDElements.max,
-                ImVec2(ImGui::GetContentRegionAvailWidth() * HUDElements.params->table_columns, 50));
+                ImVec2(ImGui::GetContentRegionAvail().x * HUDElements.params->table_columns, 50));
     } else {
         ImGui::PlotHistogram("", arr.data(),
         arr.size(), 0,
         NULL, HUDElements.min, HUDElements.max,
-        ImVec2(ImGui::GetContentRegionAvailWidth() * HUDElements.params->table_columns, 50));
+        ImVec2(ImGui::GetContentRegionAvail().x * HUDElements.params->table_columns, 50));
     }
     ImGui::Dummy(ImVec2(0.0f,5.0f));
     ImGui::PopStyleColor(1);
